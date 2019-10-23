@@ -3,7 +3,7 @@ const httpStatus = require('http-status');
 const { omitBy, isNil } = require('lodash');
 const bcrypt = require('bcryptjs');
 const moment = require('moment-timezone');
-const jwt = require('jwt-simple');
+const jwt = require('jsonwebtoken');
 const uuidv4 = require('uuid/v4');
 const APIError = require('../utils/APIError');
 const { env, jwtSecret, jwtExpirationInterval } = require('../../config/vars');
@@ -97,7 +97,7 @@ userSchema.method({
       iat: moment().unix(),
       sub: this._id,
     };
-    return jwt.encode(playload, jwtSecret);
+    return jwt.sign(playload, jwtSecret);
   },
 
   async passwordMatches(password) {
